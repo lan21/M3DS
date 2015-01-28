@@ -52,6 +52,30 @@ Triangle position prend 8 sommets
 On ne trace que 8 sommets
 media/snapshot/capture_0008.jpg
 
+Question 18
+Il n'y a rien à modifier pour VBO(on lui donne déjà la taille des triangle_position en paramètre),VBA et VertexShader
+
+Question 19
+media/snapshot/capture_0009.jpg
+
+Question 20
+media/snapshot/capture_0011.jpg
+
+Question 21/22/23
+Modifier le vertex shader pour prendre en compte les coordonnées des texels.(prendre en in et mettre en out pour les fragments)
+Modifier le fragment shader en utilisant uniform Sampler2D et les couleurs qu'on fait sortir sont : texture2D(texUnit,fTexCoord)
+Pour le VBO dans init buffer: "	glGenBuffers(1,&_triangleTexCoordBuffer);
+  		glBindBuffer(GL_ARRAY_BUFFER,_triangleTexCoordBuffer);
+  		glBufferData(GL_ARRAY_BUFFER,_triangleTexCoord.size()*sizeof(float),_triangleTexCoord.data(),GL_STATIC_DRAW); "
+dans initProgram :   "glBindAttribLocation(program,2,"texCoord");"
+Dans le VAO : "	glBindBuffer(GL_ARRAY_BUFFER,_triangleTexCoordBuffer);
+ 		glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,0,0);
+		glEnableVertexAttribArray(2); "
+
+Question 24
+Changer le coordonées de la texture tex : 
+
+
 Doit contenir :
 - ce que vous n'avez pas fait (et pourquoi).
 - difficultés rencontrées.
