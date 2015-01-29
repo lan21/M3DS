@@ -89,9 +89,9 @@ GLApplication::GLApplication() {
 
      _triangleTexCoord = {
        0,0,
-       0,1,
+       0,0.5,
        1,0,
-       1,1
+       1,0.5
      };
 
 
@@ -114,7 +114,7 @@ void GLApplication::initialize() {
   _shader0=initProgram("simple");
 
   //initStrip(10,-0.8,0.8,-0.4,0.4);
-  //initRing(100,0.2,0.5);
+  initRing(100,0.2,0.7);
   initTriangleBuffer();
   initTriangleVAO();
   initTexture();
@@ -135,7 +135,7 @@ void GLApplication::update() {
   // => mettre à jour les données de l'application
   // avant l'affichage de la prochaine image (animation)
   // ...
-    /*if(_zoom){
+    if(_zoom){
         _coeff+=0.01;
         if(_coeff>=1)
             _zoom=false;
@@ -144,7 +144,7 @@ void GLApplication::update() {
         _coeff-=0.01;
         if(_coeff<=0.1)
             _zoom=true;
-    }*/
+    }
 
 
 }
@@ -201,15 +201,23 @@ void GLApplication::initRing(int nbSlice,float r0,float r1){
     float theta = 2*3.14159/(nbSlice-1);
 
     _trianglePosition.clear();
+    _triangleTexCoord.clear();
     for (int i=0;i<nbSlice;i++){
         _trianglePosition.push_back(r0*cos(theta*i));_trianglePosition.push_back(r0*sin(theta*i));_trianglePosition.push_back(0.0);
+        //_triangleTexCoord.push_back((1.0/nbSlice)*i);_triangleTexCoord.push_back(0);
+        _triangleTexCoord.push_back((r0*cos(theta*i)+1.0)/2);_triangleTexCoord.push_back((r0*sin(theta*i)+1.0)/2);
+
         _trianglePosition.push_back(r1*cos(theta*i));_trianglePosition.push_back(r1*sin(theta*i));_trianglePosition.push_back(0.0);
+        //_triangleTexCoord.push_back((1.0/nbSlice)*i);_triangleTexCoord.push_back(1.0);
+        _triangleTexCoord.push_back((r1*cos(theta*i)+1.0)/2);_triangleTexCoord.push_back((r1*sin(theta*i)+1.0)/2);
     }
     _triangleColor.clear();
     for(int i=0;i<nbSlice;i++) {
         _triangleColor.push_back(0);_triangleColor.push_back((1.0/nbSlice)*i);_triangleColor.push_back(0);_triangleColor.push_back(1);
         _triangleColor.push_back(0);_triangleColor.push_back(0);_triangleColor.push_back(1-((1.0/nbSlice)*i));_triangleColor.push_back(1);
     }
+
+
 }
 
 /** ********************************************************************** **/
