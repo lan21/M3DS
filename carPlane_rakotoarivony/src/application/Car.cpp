@@ -57,14 +57,16 @@ void Car::drawAxle() {
     float length = 6;
     p3d::modelviewMatrix.push();
     p3d::diffuseColor=Vector3(0,1,0);
-    p3d::modelviewMatrix.scale(0.2,0.2,length);
+    p3d::modelviewMatrix.scale(0.2,0.2,length/2);
+    drawCylinder();
+    p3d::modelviewMatrix.rotate(180,0,1,0);
     drawCylinder();
     p3d::modelviewMatrix.pop();
+    p3d::modelviewMatrix.translate(0,0,-length/2);
     drawWheel();
     p3d::modelviewMatrix.push();
     p3d::modelviewMatrix.translate(0,0,length);
     drawWheel();
-
     p3d::modelviewMatrix.pop();
 
 }
@@ -82,7 +84,21 @@ void Car::drawBody() {
 }
 
 void Car::draw() {
+    p3d::modelviewMatrix.push();
+    p3d::modelviewMatrix.scale(2,2,2);
+    p3d::modelviewMatrix.translate(0,2,0);
+    p3d::modelviewMatrix.rotate(180,0,1,0);
+    drawBody();
+    p3d::modelviewMatrix.pop();
+    p3d::modelviewMatrix.push();
+    p3d::modelviewMatrix.rotate(90,0,1,0);
     drawAxle();
+    p3d::modelviewMatrix.pop();
+    p3d::modelviewMatrix.push();
+    p3d::modelviewMatrix.translate(0,0,-6);
+    p3d::modelviewMatrix.rotate(90,0,1,0);
+    drawAxle();
+    p3d::modelviewMatrix.pop();
 }
 
 

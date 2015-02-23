@@ -1,7 +1,4 @@
-Nom1 Prénom1
-Nom2 Prénom2
+Rakotoarivony Allan
 
-Doit contenir :
-- ce que vous n'avez pas fait (et pourquoi).
-- difficultés rencontrées.
-- commentaires éventuels sur le TP (points à éclaircir, longueur du sujet, etc). 
+Ce qui n'a pas été fait : 
+- Partie sur les animations : Ceci est un rendu temporaire et tout a été fait sur la partie conception de la voiture
