@@ -11,7 +11,7 @@
 * @file
 *
 * @brief
-* @author F. Aubert - Univ Lille 1
+* @author F. Aubert - Univ Lille 1 - A. Rakotoarivony
 *
 */
 
@@ -80,6 +80,7 @@ void GLApplication::update() {
   if (keyPressed(Qt::Key_F)) _cameraMode=Camera_Car_Setup;
   if (keyPressed(Qt::Key_G)) _cameraMode=Camera_Follow_Plane;
   if (keyPressed(Qt::Key_H)) _cameraMode=Camera_Follow_Car;
+
 
   _car.decelerate();
   if (_cameraMode==Camera_Follow_Car || _cameraMode==Camera_Car_Setup) {

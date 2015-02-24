@@ -6,7 +6,10 @@
 using namespace p3d;
 using namespace std;
 
-
+/**
+  *@author Raktoarivony
+  *
+  * */
 // ************************************************************
 Car::~Car() {
 }
@@ -92,11 +95,14 @@ void Car::draw() {
     p3d::modelviewMatrix.pop();
     p3d::modelviewMatrix.push();
     p3d::modelviewMatrix.rotate(90,0,1,0);
+    p3d::modelviewMatrix.rotate(-_rotateWheel/6,0,0,1);
     drawAxle();
     p3d::modelviewMatrix.pop();
     p3d::modelviewMatrix.push();
-    p3d::modelviewMatrix.translate(0,0,-6);
+    p3d::modelviewMatrix.translate(0,0,-7);
     p3d::modelviewMatrix.rotate(90,0,1,0);
+    p3d::modelviewMatrix.rotate(_steering,0,1,0);
+    p3d::modelviewMatrix.rotate(-_rotateWheel/6,0,0,1);
     drawAxle();
     p3d::modelviewMatrix.pop();
 }
@@ -105,7 +111,8 @@ void Car::draw() {
 void Car::drawWorld() {
 
   p3d::modelviewMatrix.push();
-
+  modelviewMatrix.rotate(_orientation);
+  modelviewMatrix.translate(_position);
   draw(); // tracé de la voiture dans son repère local
   p3d::modelviewMatrix.pop();
 }
@@ -116,7 +123,10 @@ void Car::move() {
   _rotateWheel+=_velocity*20;
   _steering-=_steering/10*fabs(_velocity);
 
-  _orientation.rotate(_steering*_velocity/(1.0+fabs(_velocity)),Vector3(0,1,0)); // le /100 est déterminé par essai/erreur
+  _orientation.rotate(_steering*_velocity/(1.0+fabs(_velocity)/3),Vector3(0,1,0)); // le /100 est déterminé par essai/erreur
+  Vector3 uneDirection = Vector3 (0,0,-1);//direction dans le repère local
+  p3d::modelviewMatrix.transformDirection(uneDirection);
+  _position = _position + uneDirection*_velocity*0.1;
 
 }
 
