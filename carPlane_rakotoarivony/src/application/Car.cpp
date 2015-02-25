@@ -6,7 +6,10 @@
 using namespace p3d;
 using namespace std;
 
-
+/**
+  *@author Raktoarivony
+  *
+  * */
 // ************************************************************
 Car::~Car() {
 }
@@ -57,14 +60,16 @@ void Car::drawAxle() {
     float length = 6;
     p3d::modelviewMatrix.push();
     p3d::diffuseColor=Vector3(0,1,0);
-    p3d::modelviewMatrix.scale(0.2,0.2,length);
+    p3d::modelviewMatrix.scale(0.2,0.2,length/2);
+    drawCylinder();
+    p3d::modelviewMatrix.rotate(180,0,1,0);
     drawCylinder();
     p3d::modelviewMatrix.pop();
+    p3d::modelviewMatrix.translate(0,0,-length/2);
     drawWheel();
     p3d::modelviewMatrix.push();
     p3d::modelviewMatrix.translate(0,0,length);
     drawWheel();
-
     p3d::modelviewMatrix.pop();
 
 }
@@ -82,14 +87,32 @@ void Car::drawBody() {
 }
 
 void Car::draw() {
+    p3d::modelviewMatrix.push();
+    p3d::modelviewMatrix.scale(2,2,2);
+    p3d::modelviewMatrix.translate(0,2,0);
+    p3d::modelviewMatrix.rotate(180,0,1,0);
+    drawBody();
+    p3d::modelviewMatrix.pop();
+    p3d::modelviewMatrix.push();
+    p3d::modelviewMatrix.rotate(90,0,1,0);
+    p3d::modelviewMatrix.rotate(-_rotateWheel/6,0,0,1);
     drawAxle();
+    p3d::modelviewMatrix.pop();
+    p3d::modelviewMatrix.push();
+    p3d::modelviewMatrix.translate(0,0,-7);
+    p3d::modelviewMatrix.rotate(90,0,1,0);
+    p3d::modelviewMatrix.rotate(_steering,0,1,0);
+    p3d::modelviewMatrix.rotate(-_rotateWheel/6,0,0,1);
+    drawAxle();
+    p3d::modelviewMatrix.pop();
 }
 
 
 void Car::drawWorld() {
 
   p3d::modelviewMatrix.push();
-
+  modelviewMatrix.translate(_position);
+  modelviewMatrix.rotate(_orientation);
   draw(); // tracé de la voiture dans son repère local
   p3d::modelviewMatrix.pop();
 }
@@ -101,6 +124,10 @@ void Car::move() {
   _steering-=_steering/10*fabs(_velocity);
 
   _orientation.rotate(_steering*_velocity/(1.0+fabs(_velocity)),Vector3(0,1,0)); // le /100 est déterminé par essai/erreur
+  Vector3 uneDirection = _orientation * Vector3 (0,0,-1)*_velocity*0.5;//direction dans le repère local
+  p3d::modelviewMatrix.transformDirection(uneDirection);
+  _position = _position + uneDirection;
+
 
 }
 

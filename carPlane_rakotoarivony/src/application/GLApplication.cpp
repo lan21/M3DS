@@ -11,7 +11,7 @@
 * @file
 *
 * @brief
-* @author F. Aubert - Univ Lille 1
+* @author F. Aubert - Univ Lille 1 - A. Rakotoarivony
 *
 */
 
@@ -80,6 +80,7 @@ void GLApplication::update() {
   if (keyPressed(Qt::Key_F)) _cameraMode=Camera_Car_Setup;
   if (keyPressed(Qt::Key_G)) _cameraMode=Camera_Follow_Plane;
   if (keyPressed(Qt::Key_H)) _cameraMode=Camera_Follow_Car;
+
 
   _car.decelerate();
   if (_cameraMode==Camera_Follow_Car || _cameraMode==Camera_Car_Setup) {
@@ -164,6 +165,9 @@ void GLApplication::updateCamera() {
   _lambda+=0.02;
   if (_lambda>1) _lambda=1;
 
+  //interpolation des caméras
+  _camera.position((1-_lambda)*_cameraStart.position()+_cameraStop.position()*_lambda);
+  _camera.orientation((1-_lambda)*_cameraStart.orientation()+_cameraStop.orientation()*_lambda);
 
   switch (_cameraMode) {
     case Camera_Car_Setup:
@@ -178,13 +182,25 @@ void GLApplication::updateCamera() {
       }
       break;
     case Camera_Follow_Car: {
+      Vector3 vec = _car.orientation() * Vector3(0,5,10);
+      //_camera.position(_car.position()+vec);
+      //_camera.orientation(_car.orientation());
+      _cameraStop.position(_car.position()+vec);
+      _cameraStop.orientation(_car.orientation());
 
       }
       break;
     case Camera_Follow_Plane: {
 
-        _camera.position(_airplane.position()+Vector3(0,1,-3));
-        _camera.orientation(180,Vector3(0,1,0));
+        /*_camera.position(_airplane.position()+Vector3(0,1,-3));
+        _camera.orientation(180,Vector3(0,1,0));*/
+      Vector3 translation = _airplane.orientation() * Vector3(0,1,-3);
+      //_camera.position(_airplane.position()+translation);
+      //_camera.orientation(_airplane.orientation());
+      //_camera.rotate(180,Vector3(0,1,0));
+      _cameraStop.position(_airplane.position()+translation);
+      _cameraStop.orientation(_airplane.orientation());
+      _cameraStop.rotate(180,Vector3(0,1,0));
 
       }
       break;
