@@ -111,8 +111,13 @@ void Car::draw() {
 void Car::drawWorld() {
 
   p3d::modelviewMatrix.push();
+<<<<<<< HEAD
   modelviewMatrix.translate(_position);
   modelviewMatrix.rotate(_orientation);
+=======
+  modelviewMatrix.rotate(_orientation);
+  modelviewMatrix.translate(_position);
+>>>>>>> 597ccc6622bd9b614a49fa0956ec62b385fe073b
   draw(); // tracé de la voiture dans son repère local
   p3d::modelviewMatrix.pop();
 }
@@ -123,11 +128,18 @@ void Car::move() {
   _rotateWheel+=_velocity*20;
   _steering-=_steering/10*fabs(_velocity);
 
+<<<<<<< HEAD
   _orientation.rotate(_steering*_velocity/(1.0+fabs(_velocity)),Vector3(0,1,0)); // le /100 est déterminé par essai/erreur
   Vector3 uneDirection = _orientation * Vector3 (0,0,-1)*_velocity*0.5;//direction dans le repère local
   p3d::modelviewMatrix.transformDirection(uneDirection);
   _position = _position + uneDirection;
 
+=======
+  _orientation.rotate(_steering*_velocity/(1.0+fabs(_velocity)/3),Vector3(0,1,0)); // le /100 est déterminé par essai/erreur
+  Vector3 uneDirection = Vector3 (0,0,-1);//direction dans le repère local
+  p3d::modelviewMatrix.transformDirection(uneDirection);
+  _position = _position + uneDirection*_velocity*0.1;
+>>>>>>> 597ccc6622bd9b614a49fa0956ec62b385fe073b
 
 }
 
