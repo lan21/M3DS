@@ -27,19 +27,15 @@ Vector3 Hermite::eval(double t) {
                      1.0,0.0,0.0,0.0};
 
   Vector3 res(0,0,0);
-  Vector4 vecteurT(pow(t,3.0),pow(t,2.0),t,1.0);
 
   vector<double> answer;
   for(int j=0;j<4;j++){
-      answer.push_back(vecteurT.x()*matrix[4*j+0] + vecteurT.y()*matrix[4*j+1] + vecteurT.z()*matrix[4*j+2] + vecteurT.w()*matrix[4*j+3]);
+      answer.push_back(t*t*t*matrix[j+0] + t*t*matrix[j+4] + t*matrix[j+8] + matrix[j+12]);
   }
 
 
-  double x = answer[0]*_a.x() + answer[1]*_b.x() + answer[2]*_ta.x() + answer[3]*_tb.x();
-  double y = answer[0]*_a.y() + answer[1]*_b.y() + answer[2]*_ta.y() + answer[3]*_tb.y();
-  double z = answer[0]*_a.z() + answer[1]*_b.z() + answer[2]*_ta.z() + answer[3]*_tb.z();
+  res = answer[0]*_a + answer[1]*_b + answer[2]*_ta + answer[3]*_tb;
 
-  res.set(x,y,z);
 
   // A COMPLETER : calculer le point P(t) (appliquer "à la main" le produit de matrices). FAIT/DONE
   return res;
@@ -58,7 +54,7 @@ void Hermite::draw() {
         //cout << ans;
         lPoints.push_back(ans);
     }
-    cout<< "revient 1e fois\n";
+    //cout<< "revient 1e fois\n";
     p3d::drawThickLineStrip(lPoints);
 
 }
