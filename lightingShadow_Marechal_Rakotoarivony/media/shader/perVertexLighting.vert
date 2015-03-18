@@ -18,7 +18,7 @@ void main() {
   float diffuseIntensity;
   float specularIntensity=0;
   vec4 positionEye;
-  vec3 L,V,N;
+  vec3 L,V,N,R;
 
   positionEye=modelviewMatrix*vec4(position,1);
 
@@ -30,11 +30,15 @@ void main() {
   V=normalize(V);
   N=normalize(N);
 
+
+  R = 2*dot(L,N)*N-L;
+  R = normalize(R);
   // notez le max pour ne pas éclairer lorsque le produit scalaire est négatif (il faudra faire la même chose lors du calcul du spéculaire)
   diffuseIntensity=max(dot(N,L),0.0);
 
+  specularIntensity = max(dot(V,R),0.0);
   // rouge, vert,bleu de l'éclairement :
-  fColor.rgb=diffuseIntensity*materialDiffuse+materialAmbient.xyz;
+  fColor.rgb=diffuseIntensity*materialDiffuse+materialAmbient.xyz+pow(specularIntensity,50)*materialSpecular;
   // le alpha est porté uniquement par materialAmbient.a.:
   fColor.a=materialAmbient.a;
 

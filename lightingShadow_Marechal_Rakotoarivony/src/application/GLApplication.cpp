@@ -117,7 +117,7 @@ void GLApplication::initialize() {
   _univLille1.bind(1);
 
   _univLille1.wrap(GL_CLAMP_TO_BORDER);
-
+  //_univLille1.wrap(GL_REPEAT);
 
 
   _al.initDraw();
